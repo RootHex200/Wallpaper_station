@@ -6,6 +6,7 @@ import 'package:wallpaper_station/model/wallpaper.dart';
 
 class Hive_controller extends GetxController {
   final data = <Wallpaper>[].obs;
+  final isChecked = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -32,4 +33,5 @@ class Hive_controller extends GetxController {
     var box = Boxes.getWallpaper();
     box.deleteAt(value).then((value) => getdata()).catchError((e) => getdata());
   }
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:wallpaper_station/controller/download_controller.dart';
 import 'package:wallpaper_station/controller/hive_controller.dart';
 
 import '../widgets/nav_widget.dart';
@@ -15,6 +16,7 @@ class Favourite_page extends HookWidget {
   @override
   Widget build(BuildContext context) {
     Hive_controller hive_controller = Get.put(Hive_controller());
+    Download_controller download_controller = Get.put(Download_controller());
     useEffect(() {
       hive_controller.onInit();
     });
@@ -56,8 +58,7 @@ class Favourite_page extends HookWidget {
             child: Obx(
               () => hive_controller.data.value.length == 0
                   ? Center(child: CircularProgressIndicator())
-                  : 
-                  StaggeredGridView.countBuilder(
+                  : StaggeredGridView.countBuilder(
                       crossAxisCount: 2,
                       itemCount: hive_controller.data.value.length,
                       crossAxisSpacing: 16,
@@ -84,8 +85,8 @@ class Favourite_page extends HookWidget {
                                     right: 0,
                                     child: InkWell(
                                       onTap: () {
-                                        hive_controller.addData(
-                                            "https://wallpapercave.com/wp/wp1837539.jpg");
+                                        download_controller.download_wallpaper(
+                                          hive_controller.data[index].imageurl, context);
                                       },
                                       child: Container(
                                         margin: EdgeInsets.only(

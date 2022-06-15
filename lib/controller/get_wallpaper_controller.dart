@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:wallpaper_station/model/jsonplace.dart';
 import '../service/get_wallpaper.dart';
 
 class Get_all_wallpaper_controller extends GetxController {

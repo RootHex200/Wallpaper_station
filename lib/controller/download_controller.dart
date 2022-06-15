@@ -1,19 +1,39 @@
+//import 'dart:html';
+
+import 'dart:io';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:path_provider/path_provider.dart' as p;
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class Download_controller extends GetxController {
-  download_wallpaper() async {
-    var tempDir = await getApplicationDocumentsDirectory();
-    print('This is directory $tempDir');
-    var tam = tempDir.path + "/wp1837539.jpg";
-    print("this is save directory $tam");
-    // var response = await Dio().download('https://wallpapercave.com/wp/wp1837539.jpg', 'wp1837539.jpg');
-    var response =
-        await Dio().download("https://wallpapercave.com/wp/wp1837539.jpg", tam);
-    if (response.statusCode == 200) {
-      print("data is download");
-      
+
+  download_wallpaper(image_url, context) async {
+    ProgressDialog pr = ProgressDialog(context);
+    pr = ProgressDialog(context, type: ProgressDialogType.download);
+    pr.style(message: "Downloding......");
+    var name = await DownloadsPathProvider.downloadsDirectory;
+    if (name != null) {
+      try {
+        await pr.show();
+        var save_path = image_url == null
+            ? ""
+            : name.path + "/${image_url.split("/").last}";
+        await Dio().download(image_url, save_path,
+            onReceiveProgress: (rec, total) {
+          var progress = ((rec / total) * 100).toStringAsFixed(0) + "%";
+          pr.update(message: "Please wait $progress");
+        });
+        pr.hide();
+        print("File download in download folder");
+      } catch (e) {
+        print("File not download");
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Not found Download Directory");
     }
   }
 }

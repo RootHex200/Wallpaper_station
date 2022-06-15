@@ -12,8 +12,12 @@ import '../widgets/colors.dart';
 import '../widgets/nav_widget.dart';
 
 class Main_page extends HookWidget {
-  const Main_page({Key? key}) : super(key: key);
-
+  Main_page({Key? key}) : super(key: key);
+  List image_data = [
+    "image1.jpg",
+    "image2.jpg",
+    "image3.jpg"
+  ];
   @override
   Widget build(BuildContext context) {
     final tabcontroller = useTabController(initialLength: 3);
@@ -31,7 +35,6 @@ class Main_page extends HookWidget {
                   InkWell(
                     onTap: () {
                       Scaffold.of(context).openDrawer();
-                      
                     },
                     child: Nav_bar(
                         icons: Icon(
@@ -132,78 +135,86 @@ class Main_page extends HookWidget {
                 margin: EdgeInsets.only(left: 10.w, right: 10.w),
                 child: TabBarView(controller: tabcontroller, children: [
                   Obx(
-                    ()=>get_all_wallpaper_controller.category.value.length==0?
-                    Center(child: CircularProgressIndicator(),)
-                    :
+                    () => get_all_wallpaper_controller.category.value.length ==
+                            0
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : StaggeredGridView.countBuilder(
+                            crossAxisCount: 2,
+                            itemCount: get_all_wallpaper_controller
+                                .category.value.length,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(All_wallpaper());
+                                },
+                                child: Container(
+                                  height: 290.h,
 
-                  StaggeredGridView.countBuilder(
-                      crossAxisCount: 2,
-                      itemCount:get_all_wallpaper_controller.category.value.length,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(All_wallpaper());
-                          },
-                          child: Container(
-                            height: 290.h,
-
-                            // margin: EdgeInsets.only(left: 20.w,right: 20.h),
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 6,
-                                    spreadRadius: 8,
-                                    offset: Offset(0, 3),
-                                    color: Colors.grey.withOpacity(0.2))
-                              ],
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  height: 210.h,
+                                  // margin: EdgeInsets.only(left: 20.w,right: 20.h),
                                   decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 6,
+                                          spreadRadius: 8,
+                                          offset: Offset(0, 3),
+                                          color: Colors.grey.withOpacity(0.2))
+                                    ],
                                     borderRadius: BorderRadius.circular(20.r),
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/try.jpg")),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 210.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                              image: AssetImage(
+                                              
+                                                  "assets/images/"+image_data[index])),
+                                        ),
+                                      ),
+                                      Text_widgets(
+                                        txt: get_all_wallpaper_controller
+                                            .category[index].name,
+                                        fontsize: 18.sp,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text_widgets(
+                                            txt:
+                                                '${get_all_wallpaper_controller.category[index].subCategories} wallpaper',
+                                            fontWeight: FontWeight.bold,
+                                            fontsize: 20.sp,
+                                          ),
+                                          Expanded(child: Container()),
+                                          Container(
+                                            height: 40.h,
+                                            width: 40.w,
+                                            margin: EdgeInsets.only(right: 5.h),
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey                                                  .withOpacity(0.4),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        10.r)),
+                                            child: Icon(Icons.forward),
+                                          )
+                                        ],
+                                      )
+                                    ],
                                   ),
                                 ),
-                                Text_widgets(
-                                  txt:
-                                     get_all_wallpaper_controller.category[index].name,
-                                  fontsize: 18.sp,
-                                ),
-                                Row(
-                                  children: [
-                                    Text_widgets(
-                                      txt:
-                                          '${get_all_wallpaper_controller.category[index].subCategories} wallpaper',
-                                      fontWeight: FontWeight.bold,
-                                      fontsize: 20.sp,
-                                    ),
-                                    Expanded(child: Container()),
-                                    Container(
-                                      height: 40.h,
-                                      width: 40.w,
-                                      margin: EdgeInsets.only(right: 5.h),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.withOpacity(0.4),
-                                          borderRadius:
-                                              BorderRadius.circular(10.r)),
-                                      child: Icon(Icons.forward),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      staggeredTileBuilder: (index) => StaggeredTile.fit(1)),
+                              );
+                            },
+                            staggeredTileBuilder: (index) =>
+                                StaggeredTile.fit(1)),
                   ),
                   Container(),
                   Container(),

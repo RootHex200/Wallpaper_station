@@ -43,6 +43,9 @@ dependencies:
   hive: ^2.2.1
   hive_flutter: ^1.1.0
   equatable: ^2.0.3
+  downloads_path_provider_28: ^0.1.2
+  fluttertoast: ^8.0.9
+  progress_dialog_null_safe: ^1.0.7
 
 
 

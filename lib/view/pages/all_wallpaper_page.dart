@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:wallpaper_station/controller/hive_controller.dart';
 import 'package:wallpaper_station/view/pages/drawer_page.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,6 +12,7 @@ import '../../controller/download_controller.dart';
 import '../../controller/get_wallpaper_controller.dart';
 import '../widgets/nav_widget.dart';
 import '../widgets/txt_widgets.dart';
+
 class All_wallpaper extends HookWidget {
   const All_wallpaper({Key? key}) : super(key: key);
 
@@ -154,7 +156,10 @@ class All_wallpaper extends HookWidget {
                                         child: InkWell(
                                           onTap: () {
                                             download_controller
-                                                .download_wallpaper();
+                                                .download_wallpaper(
+                                                    get_all_wallpaper_controller
+                                                            .get_wallpaper_data[
+                                                        index],context);
                                           },
                                           child: Container(
                                             margin: EdgeInsets.only(
